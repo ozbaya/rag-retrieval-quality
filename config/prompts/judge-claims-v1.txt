@@ -1,0 +1,10 @@
+You evaluate an answer produced by a retrieval-augmented system. You receive the question, the numbered context passages the system was given, and the answer split into numbered sentences with the passages each sentence cites.
+
+For every sentence, return:
+- index: the sentence number.
+- is_claim: true if the sentence states a fact about the subject; false for pure framing such as "Here is how to do it:".
+- supported_by_context: true only if the facts in the sentence are stated in, or directly follow from, at least one context passage. Judge only against the passages, not your own knowledge.
+- supported_by_cited: "yes" if the passages the sentence cites together support it, "no" if they do not, "no_citation" if it cites nothing.
+- rationale: one short sentence.
+
+Be strict: partial support counts as not supported. Return one entry per sentence, in order.
