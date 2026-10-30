@@ -1,0 +1,10 @@
+coverage_threshold: 0.5
+chunking:
+  fixed-v1:  {strategy: fixed,      params: {size_chars: 1600, min_back_chars: 800}}
+  struct-v1: {strategy: structured, params: {max_tokens: 400, min_tokens: 50}}
+pipelines:
+  baseline:     {chunking: fixed-v1,  retrieval: dense,         final_k: 10, context_k: 5}
+  intermediate: {chunking: struct-v1, retrieval: dense,         final_k: 10, context_k: 5}
+  advanced:     {chunking: struct-v1, retrieval: hybrid_rerank, final_k: 10, context_k: 5,
+                 n_dense: 50, n_kw: 50, rrf_k: 60, top_m: 50}
+generation: {prompt: gen-v1, max_tokens: 400, temperature: 0}

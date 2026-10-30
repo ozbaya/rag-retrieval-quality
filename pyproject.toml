@@ -1,0 +1,26 @@
+[project]
+name = "ragdemo"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi", "uvicorn[standard]", "psycopg[binary]", "pgvector", "numpy",
+  "openai", "anthropic", "cohere", "tiktoken", "pyyaml", "python-dotenv",
+  "upstash-redis", "upstash-ratelimit",
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "arize-phoenix", "arize-phoenix-otel", "arize-phoenix-client",
+  "openinference-instrumentation-openai", "openinference-instrumentation-anthropic",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ragdemo"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

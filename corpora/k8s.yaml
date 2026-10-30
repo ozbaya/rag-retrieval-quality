@@ -1,0 +1,13 @@
+corpus: k8s
+source_type: git
+repo_url: https://github.com/kubernetes/website.git
+local_path: data/sources/k8s-website
+include:
+  - content/en/docs/concepts/**/*.md
+  - content/en/docs/tasks/**/*.md
+exclude: []
+docs_root: content/en/docs/
+url_base: https://kubernetes.io/docs/
+min_chars: 200
+license: "CC BY 4.0"
+attribution: "Kubernetes Documentation, (c) The Kubernetes Authors, licensed under CC BY 4.0. Normalized and chunked (modified)."

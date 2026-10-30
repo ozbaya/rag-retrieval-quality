@@ -1,0 +1,5 @@
+# Day 4 (Step 4.1): human-reviewed question IDs from the published run, in display order.
+question_ids: []
+# Day 3 (Step 3.4): copy n and agreement per unit from results/<run_id>/judge_validation.json.
+# Example: correctness: {n: 30, agreement: 0.87, provisional: false}
+judge_validation: {}
