@@ -24,3 +24,8 @@ packages = ["src/ragdemo"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+filterwarnings = [
+  # third-party deprecations pulled in by arize-phoenix (dev only)
+  "ignore::DeprecationWarning:ldap3.*",
+  "ignore::DeprecationWarning:beartype.*",
+]
