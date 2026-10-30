@@ -1,0 +1,22 @@
+# Retrieval tests. 'expect' is the end of the expected source path. Keep these as examples.
+tests:
+  - {kind: identifier, query: "What does CrashLoopBackOff mean?", expect: "pod-lifecycle.md"}
+  - {kind: identifier, query: "How do I set spec.containers[].resources.limits for memory?", expect: "manage-resources-containers.md"}
+  - {kind: flag,       query: "kubectl apply --dry-run=client example", expect: "imperative-command.md"}
+  - {kind: identifier, query: "What is a PodDisruptionBudget?", expect: "configure-pdb.md"}
+  - {kind: prose,      query: "How do I configure a liveness probe?", expect: "configure-liveness-readiness-startup-probes.md"}
+  - {kind: identifier, query: "Why is my pod stuck in ImagePullBackOff?", expect: "containers/images.md"}
+  - {kind: identifier, query: "How does stabilizationWindowSeconds affect scale-down?", expect: "horizontal-pod-autoscale.md"}
+  - {kind: flag,       query: "kubectl drain --ignore-daemonsets before node maintenance", expect: "safely-drain-node.md"}
+  - {kind: prose,      query: "How do I spread my pods evenly across zones?", expect: "topology-spread-constraints.md"}
+  - {kind: prose,      query: "How do I keep a volume's data after its claim is deleted?", expect: "change-pv-reclaim-policy.md"}
+  - {kind: identifier, query: "What does ttlSecondsAfterFinished do?", expect: "ttlafterfinished.md"}
+  - {kind: identifier, query: "What is podManagementPolicy used for?", expect: "controllers/statefulset.md"}
+  - {kind: identifier, query: "How do I create a PriorityClass?", expect: "pod-priority-preemption.md"}
+  - {kind: identifier, query: "How does backoffLimit work?", expect: "controllers/job.md"}
+  - {kind: identifier, query: "What does concurrencyPolicy: Forbid do?", expect: "controllers/cron-jobs.md"}
+  - {kind: flag,       query: "kubectl port-forward pod/mypod 8080:80", expect: "port-forward-access-application-cluster.md"}
+  - {kind: flag,       query: "kubectl debug -it --image=busybox --target=app", expect: "debug-running-pod.md"}
+  - {kind: prose,      query: "How do I roll back to an earlier version of my app?", expect: "controllers/deployment.md"}
+  - {kind: prose,      query: "How can I keep pods off a node unless they explicitly allow it?", expect: "taint-and-toleration.md"}
+  - {kind: prose,      query: "How do I restrict which pods can talk to each other?", expect: "network-policies.md"}
