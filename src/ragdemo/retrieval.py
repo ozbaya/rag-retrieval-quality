@@ -2,15 +2,19 @@
 import time
 
 import cohere
+from cohere import TooManyRequestsError
 from openai import OpenAI
 
 from .fusion import rrf
 from .keyword import extract_identifiers
-from .settings import model, pipelines
+from .settings import env, model, pipelines
 from .tracing import span
 
 _openai = None
 _cohere = None
+# Cohere trial keys allow 10 rerank calls/min; set COHERE_RPM=0 in .env to disable spacing on a production key.
+COHERE_RPM = float(env("COHERE_RPM", "9"))
+_last_rerank = 0.0
 
 
 def _clients():
@@ -19,6 +23,26 @@ def _clients():
         _openai = OpenAI(timeout=10, max_retries=2)
         _cohere = cohere.ClientV2(timeout=10)
     return _openai, _cohere
+
+
+def _wait_for_rerank_slot():
+    """Space Cohere calls to at most COHERE_RPM per minute. Called outside the timed rerank stage."""
+    global _last_rerank
+    if COHERE_RPM > 0:
+        delay = _last_rerank + 60 / COHERE_RPM - time.monotonic()
+        if delay > 0:
+            time.sleep(delay)
+    _last_rerank = time.monotonic()
+
+
+def _rerank(co, **kwargs):
+    for attempt in range(3):
+        try:
+            return co.rerank(**kwargs)
+        except TooManyRequestsError:
+            if attempt == 2:
+                raise
+            time.sleep(60)  # per-minute limit: the next window is at most a minute away
 
 
 def _ms(t0):
@@ -85,12 +109,13 @@ def run_retrieval(conn, pipeline_id: str, snapshot: str, question: str, qvec=Non
                         k=p["rrf_k"], top_m=p["top_m"])
         stages["fused"] = [{"chunk_id": c, "score": s, "rank": i} for i, (c, s) in enumerate(fused, start=1)]
         timings["fuse"] = _ms(t0)
+        _wait_for_rerank_slot()
         t0 = time.perf_counter()
         cands = load_chunks(conn, [x["chunk_id"] for x in stages["fused"]])
         _, co = _clients()
         with span("rerank", model=model("rerank"), n=len(cands)):
-            resp = co.rerank(model=model("rerank"), query=question,
-                             documents=[c["index_text"] for c in cands], top_n=p["final_k"])
+            resp = _rerank(co, model=model("rerank"), query=question,
+                           documents=[c["index_text"] for c in cands], top_n=p["final_k"])
         fused_rank = {x["chunk_id"]: x["rank"] for x in stages["fused"]}
         ranked = sorted(((cands[r.index]["chunk_id"], float(r.relevance_score)) for r in resp.results),
                         key=lambda x: (-x[1], fused_rank[x[0]], x[0]))
