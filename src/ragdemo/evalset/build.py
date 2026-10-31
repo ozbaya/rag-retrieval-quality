@@ -31,7 +31,7 @@ def load_struct_chunks(conn, snapshot):
     keys = ["chunk_id", "doc_id", "doc_version", "char_start", "char_end", "section_path", "content",
             "token_count", "embedding", "title"]
     chunks = [dict(zip(keys, r)) for r in rows]
-    emb = np.array([np.asarray(c["embedding"], dtype=np.float32) for c in chunks])
+    emb = np.array([c["embedding"].to_numpy() for c in chunks], dtype=np.float32)
     emb /= np.linalg.norm(emb, axis=1, keepdims=True)
     return chunks, emb
 
