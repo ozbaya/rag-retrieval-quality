@@ -19,9 +19,9 @@ def write_jsonl(path: Path, items: list[dict]):
 
 
 def openai_json(model_id: str, system: str, user: str, schema: dict, name: str) -> dict:
-    """Chat completion with strict JSON schema output. If the model rejects temperature, remove it."""
+    """Chat completion with strict JSON schema output."""
     resp = OpenAI(timeout=60, max_retries=3).chat.completions.create(
-        model=model_id, temperature=0,
+        model=model_id,
         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
         response_format={"type": "json_schema", "json_schema": {"name": name, "strict": True, "schema": schema}})
     return json.loads(resp.choices[0].message.content)

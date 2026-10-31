@@ -3,7 +3,7 @@ Usage: uv run python -m ragdemo.evalset.validate --snapshot <id> --name k8s-eval
 import argparse
 import json
 
-import anthropic
+from openai import OpenAI
 
 from ..db import connect
 from ..retrieval import load_chunks, run_retrieval
@@ -20,11 +20,13 @@ def locate(text, quote, hint_start, hint_end, strict):
     return (pos, pos + len(q)) if pos >= 0 else None
 
 
-def claude_json(system, user):
-    client = anthropic.Anthropic(timeout=60, max_retries=3)
-    resp = client.messages.create(model=model("validator"), max_tokens=500, temperature=0, system=system,
-                                  messages=[{"role": "user", "content": user}])
-    text = "".join(b.text for b in resp.content if b.type == "text").strip()
+def llm_json(system, user):
+    client = OpenAI(timeout=60, max_retries=3)
+    resp = client.chat.completions.create(model=model("validator"), max_completion_tokens=500,
+                                          response_format={"type": "json_object"},
+                                          messages=[{"role": "system", "content": system},
+                                                    {"role": "user", "content": user}])
+    text = (resp.choices[0].message.content or "").strip()
     text = text[text.find("{"): text.rfind("}") + 1]
     return json.loads(text)
 
@@ -83,7 +85,7 @@ def main():
                         "\n\n".join(f"Evidence {i}:\n{e['text']}" for i, e in enumerate(req, start=1)) +
                         "\n\nReturn JSON with keys: evidence_supports_answer (bool), "
                         "each_span_necessary (bool), question_is_clear (bool), notes (string).")
-                v = claude_json(system, user)
+                v = llm_json(system, user)
                 verdict = "supported" if (v["evidence_supports_answer"] and v["each_span_necessary"]
                                           and v["question_is_clear"]) else "flagged"
             elif not it["answerable"]:
@@ -96,7 +98,7 @@ def main():
                         "\n\n".join(f"Passage {i}:\n{c['content']}" for i, c in enumerate(passages, start=1)) +
                         "\n\nReturn JSON with keys: answered_by_any_passage (bool), question_is_clear (bool), "
                         "notes (string).")
-                v = claude_json(system, user)
+                v = llm_json(system, user)
                 verdict = "supported" if (not v["answered_by_any_passage"] and v["question_is_clear"]) else "flagged"
             else:
                 v, verdict = {}, "not_run"

@@ -3,8 +3,10 @@ checked_on: "YYYY-MM-DD"
 models:
   embedding:          {provider: openai,    id: "text-embedding-3-small", dims: 1536, source: "https://developers.openai.com/api/docs/guides/embeddings"}
   rerank:             {provider: cohere,    id: "rerank-v3.5", source: "https://docs.cohere.com/v2/docs/rerank-overview"}
-  generation:         {provider: anthropic, id: "claude-haiku-5-5", source: "https://platform.claude.com/docs/en/models/overview"}
-  validator:          {provider: anthropic, id: "claude-haiku-5-5"}
+  # generation:         {provider: anthropic, id: "claude-haiku-5-5", source: "https://platform.claude.com/docs/en/models/overview"}
+  # validator:          {provider: anthropic, id: "claude-haiku-5-5"}
+  generation:         {provider: openai,    id: "gpt-6-luna", source: "https://developers.openai.com/api/docs/pricing"}
+  validator:          {provider: openai,    id: "gpt-6-luna"}
   question_generator: {provider: openai,    id: "gpt-6-luna", source: "https://developers.openai.com/api/docs/pricing"}
   judge:              {provider: openai,    id: "gpt-6-luna"}
 pricing_version: "2026-10-30"

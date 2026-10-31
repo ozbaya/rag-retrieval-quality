@@ -2,7 +2,7 @@
 import re
 import time
 
-import anthropic
+from openai import OpenAI
 
 from .settings import model, pipelines, prompt
 from .tracing import span
@@ -22,18 +22,18 @@ def format_context(chunks: list[dict]) -> str:
 
 def generate(question: str, chunks: list[dict]) -> dict:
     global _client
-    _client = _client or anthropic.Anthropic(timeout=30, max_retries=2)
+    _client = _client or OpenAI(timeout=30, max_retries=2)
     g = pipelines()["generation"]
     user = prompt("gen-v1-user").format(context=format_context(chunks), question=question)
     t0 = time.perf_counter()
     with span("generate", model=model("generation")):
-        resp = _client.messages.create(model=model("generation"), max_tokens=g["max_tokens"],
-                                       temperature=g["temperature"], system=prompt("gen-v1-system"),
-                                       messages=[{"role": "user", "content": user}])
-    text = "".join(b.text for b in resp.content if b.type == "text").strip()
+        resp = _client.chat.completions.create(
+            model=model("generation"), max_completion_tokens=g["max_tokens"],
+            messages=[{"role": "system", "content": prompt("gen-v1-system")}, {"role": "user", "content": user}])
+    text = (resp.choices[0].message.content or "").strip()
     return {"answer": text, "abstained": text.startswith(ABSTAIN),
             "latency_ms": round((time.perf_counter() - t0) * 1000, 1),
-            "usage": {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens}}
+            "usage": {"input_tokens": resp.usage.prompt_tokens, "output_tokens": resp.usage.completion_tokens}}
 
 
 def split_sentences(answer: str) -> list[dict]:
