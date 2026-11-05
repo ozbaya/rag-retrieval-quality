@@ -1,0 +1,165 @@
+{
+  "correctness": {
+    "n": 18,
+    "agreement": 0.944,
+    "kappa": 0.769,
+    "provisional": false,
+    "disagreements": [
+      {
+        "question_id": "q0083",
+        "pipeline_id": "advanced",
+        "sentence": "",
+        "judge_label": "partially_correct",
+        "human_label": "correct"
+      }
+    ]
+  },
+  "faithfulness": {
+    "n": 28,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "provisional": false,
+    "disagreements": []
+  },
+  "citation": {
+    "n": 28,
+    "agreement": 0.321,
+    "kappa": 0.089,
+    "provisional": true,
+    "disagreements": [
+      {
+        "question_id": "q0048",
+        "pipeline_id": "advanced",
+        "sentence": "Candidates update the expired Lease with their identity, and optimistic concurrency control on its `resourceVersion` ensures that only one concurrent update succeeds; the instance whose update is accepted becomes leader.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0066",
+        "pipeline_id": "advanced",
+        "sentence": "It presents the volume to the Pod as a raw block device, without a filesystem.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0083",
+        "pipeline_id": "advanced",
+        "sentence": "Restart Count indicates how many times the container has been restarted.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0083",
+        "pipeline_id": "advanced",
+        "sentence": "[C2] `Init:N/M` means the Pod has M Init Containers, of which N have completed; `Init:CrashLoopBackOff` means an Init Container has failed repeatedly.",
+        "judge_label": "no",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0057",
+        "pipeline_id": "advanced",
+        "sentence": "This helps prevent metrics from a Pod that rapidly toggles between Ready and Unready from being considered until it is stably Ready.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0069",
+        "pipeline_id": "advanced",
+        "sentence": "The scheduler/allocation-controller role grants `resourceclaims/binding` permissions with `patch` and `update` verbs, alongside `resourceclaims/status` with `get`, `patch`, and `update`.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0069",
+        "pipeline_id": "advanced",
+        "sentence": "The multi-node controller role grants `resourceclaims/driver` permissions with `arbitrary-node:patch` and `arbitrary-node:update` verbs, alongside the same `resourceclaims/status` verbs.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0024",
+        "pipeline_id": "baseline",
+        "sentence": "In `NonIndexed` mode (the default), it is complete after the specified number of Pods successfully finish; in `Indexed` mode, it is complete after one Pod successfully finishes for each index.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0017",
+        "pipeline_id": "baseline",
+        "sentence": "The scheduling cycle selects a node for the Pod, while the binding cycle applies that decision to the cluster.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0066",
+        "pipeline_id": "baseline",
+        "sentence": "It presents the volume to the Pod as a raw block device, without a filesystem.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0060",
+        "pipeline_id": "baseline",
+        "sentence": "Run `kubectl apply -f https://k8s.io/examples/application/php-apache.yaml` to create the Deployment and Service.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0081",
+        "pipeline_id": "baseline",
+        "sentence": "A Windows Pod must specify a `nodeSelector` for Windows and the matching toleration for the taint.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0081",
+        "pipeline_id": "baseline",
+        "sentence": "[C2] Use a HostProcess container for many tasks that would require a privileged container.",
+        "judge_label": "no",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0011",
+        "pipeline_id": "baseline",
+        "sentence": "The `status` field can be `\"True\"`, `\"False\"`, or `\"Unknown\"`.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0063",
+        "pipeline_id": "intermediate",
+        "sentence": "It watches for newly created Pods with no Node assigned, then finds a feasible Node and scores candidates to choose where each Pod should run.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0063",
+        "pipeline_id": "intermediate",
+        "sentence": "[C2][C5] It notifies the API server of the placement decision through binding.",
+        "judge_label": "no",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0020",
+        "pipeline_id": "intermediate",
+        "sentence": "Running daemons through a DaemonSet lets you monitor and manage their logs in the same way as application logs, and use the same configuration language and tools\u2014such as Pod templates and `kubectl`\u2014for daemons and applications.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0010",
+        "pipeline_id": "intermediate",
+        "sentence": "The Baseline policy disallows privileged access to the Windows host, so Windows HostProcess containers are not allowed under Baseline.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      },
+      {
+        "question_id": "q0005",
+        "pipeline_id": "intermediate",
+        "sentence": "The coarse parallel processing example uses RabbitMQ, but it can use another message queue service.",
+        "judge_label": "no_citation",
+        "human_label": "yes"
+      }
+    ]
+  }
+}

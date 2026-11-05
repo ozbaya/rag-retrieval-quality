@@ -2,4 +2,7 @@
 question_ids: []
 # Day 3 (Step 3.4): copy n and agreement per unit from results/<run_id>/judge_validation.json.
 # Example: correctness: {n: 30, agreement: 0.87, provisional: false}
-judge_validation: {}
+judge_validation:
+  correctness: {n: 18, agreement: 0.944, provisional: false}
+  faithfulness: {n: 28, agreement: 1.0, provisional: false}
+  citation: {n: 28, agreement: 0.321, provisional: true}

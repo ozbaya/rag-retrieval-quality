@@ -1,0 +1,80 @@
+{
+  "run": {
+    "run_id": "20261105-0038-d71e",
+    "created_at": "2026-11-05 00:38:59.929429+00:00",
+    "git_sha": "ca33fd48350fe08e1790b80d14a63306edff2e2f",
+    "snapshot_id": "k8s-20261030-878ad3",
+    "dataset_version": "k8s-eval-v0",
+    "pipeline_configs": {
+      "chunking": {
+        "fixed-v1": {
+          "params": {
+            "size_chars": 1600,
+            "min_back_chars": 800
+          },
+          "strategy": "fixed"
+        },
+        "struct-v1": {
+          "params": {
+            "max_tokens": 400,
+            "min_tokens": 50
+          },
+          "strategy": "structured"
+        }
+      },
+      "pipelines": {
+        "advanced": {
+          "n_kw": 50,
+          "rrf_k": 60,
+          "top_m": 50,
+          "final_k": 10,
+          "n_dense": 50,
+          "chunking": "struct-v1",
+          "context_k": 5,
+          "retrieval": "hybrid_rerank"
+        },
+        "baseline": {
+          "final_k": 10,
+          "chunking": "fixed-v1",
+          "context_k": 5,
+          "retrieval": "dense"
+        },
+        "intermediate": {
+          "final_k": 10,
+          "chunking": "struct-v1",
+          "context_k": 5,
+          "retrieval": "dense"
+        }
+      },
+      "generation": {
+        "prompt": "gen-v1",
+        "max_tokens": 2000
+      },
+      "coverage_threshold": 0.5
+    },
+    "embedding_model": "text-embedding-3-small",
+    "embedding_dims": 1536,
+    "rerank_model": "rerank-v3.5",
+    "generation_model": "gpt-6-luna",
+    "judge_model": "gpt-6-luna",
+    "prompt_versions": {
+      "kwq": "4660acbcf7a9",
+      "gen-v1-user": "6036fd905a41",
+      "gen-v1-system": "e1018861f789",
+      "pipelines_yaml": "1b3d0186242c",
+      "judge-claims-v1": "6f529d231ad6",
+      "judge-correct-v1": "84da7e3f8e9e"
+    },
+    "coverage_threshold": "0.5",
+    "pricing_table_version": "2026-10-30",
+    "notes": "E1 defaults"
+  },
+  "dataset": {
+    "dataset_version": "k8s-eval-v0",
+    "snapshot_id": "k8s-20261030-878ad3",
+    "file_sha256": "d4bb6710aa76b7966343d23f1dfcd39cb5927a9d2d081d0948508096a930bd1d",
+    "n_questions": 55,
+    "n_human_reviewed": 55,
+    "created_at": "2026-11-05 00:33:21.861924+00:00"
+  }
+}
