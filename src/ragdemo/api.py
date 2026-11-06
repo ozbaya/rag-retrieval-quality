@@ -32,7 +32,7 @@ def healthz():
 
 
 def published_run(conn):
-    run_id = env("RUN")
+    run_id = env("PUBLISHED_RUN_ID")
     run = conn.execute("select * from benchmark_runs where run_id=%s", (run_id,)).fetchone()
     if not run:
         raise HTTPException(500, "published run not found")
